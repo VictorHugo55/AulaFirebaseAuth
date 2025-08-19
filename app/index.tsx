@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import{auth} from '../services/firebaseConfig'
 
-
 export default function LoginScreen() {
   // Estados para armazenar os valores digitados
 
@@ -37,7 +36,8 @@ const handleLogin = () => {
     Alert.alert('Atenção', 'Preencha todos os campos!');
     return;
   }
-   signInWithEmailAndPassword(auth, email, senha)
+  //Função para realizar o login
+  signInWithEmailAndPassword(auth, email, senha)
     .then(async(userCredential)=>{
       const user = userCredential.user
       await AsyncStorage.setItem('@user',JSON.stringify(user))
@@ -50,13 +50,14 @@ const handleLogin = () => {
     })
 };
 
-//função para enviar o email de reset de senha para o usuário
+//Função enviar o e-mail de reset de senha para o usuário
 const esqueceuSenha = ()=>{
   if(!email){
     alert("Digite o email para recuperar a senha")
+    return
   }
   sendPasswordResetEmail(auth,email)
-    .then(()=>{alert("Enviado email de recuperação")})
+    .then(()=>{alert("Enviado e-mail de recuperação")})
     .catch((error)=>{
       console.log("Error ao enviar email",error.message)
       alert("Erro ao enviar e-mail. Verifique se o email está correto.")
@@ -80,24 +81,34 @@ return (
     />
 
     {/* Campo Senha */}
-    <TextInput
+    <View>
+      <TextInput
       style={styles.input}
       placeholder="Senha"
       placeholderTextColor="#aaa"
-      secureTextEntry
+      secureTextEntry={true}
       value={senha}
       onChangeText={setSenha}
     />
+      
+    </View>
+   
 
     {/* Botão */}
+
     <TouchableOpacity style={styles.botao} onPress={handleLogin}>
       <Text style={styles.textoBotao}>Login</Text>
     </TouchableOpacity>
 
     <Link href="CadastrarScreen" style={{ marginTop: 20, color: 'white', marginLeft: 150 }}>Cadastre-se</Link>
-    
-    <Text style={{color:'white',justifyContent:"center",alignItems:"center", marginLeft:130}} onPress={esqueceuSenha}>Esqueceu a Senha?</Text>
+
+     {/* Texto Esqueceu a senha */}
+    <Text style={{color:'white',justifyContent:"center",marginLeft: 130}} 
+      onPress={esqueceuSenha}>Esqueceu a senha
+    </Text>
   </View>
+
+  
 );
 }
 
