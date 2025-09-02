@@ -4,9 +4,19 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
-import{auth} from '../services/firebaseConfig'
+import{auth} from '../src/services/firebaseConfig'
+import { useTheme } from '../src/context/ThemeContext';
+
+import { useTranslation } from 'react-i18next';
+
 
 export default function LoginScreen() {
+  //Hook dp i18next, que fornece a função t,
+  //para buscar e traduzir para o idioma atual
+  const{t,i18n} = useTranslation()
+
+  const {colors} = useTheme()
+
   // Estados para armazenar os valores digitados
 
   const [email, setEmail] = useState('');
@@ -47,6 +57,9 @@ const handleLogin = () => {
       const errorCode = error.code
       const errorMessage = error.message
       console.log("Error Mensagem: ",errorMessage)
+      if(error.code === 'auth/invalid-credential'){
+        Alert.alert("Error","Verifique email e senha digitados.")
+      }
     })
 };
 
@@ -64,14 +77,19 @@ const esqueceuSenha = ()=>{
     })
 }
 
-return (
-  <View style={styles.container}>
-    <Text style={styles.titulo}>Realizar login</Text>
+//Função para alterar o idioma 
+const mudarIdioma = (lang:string)=>{
+  i18n.changeLanguage(lang)
+}
 
+return (
+  <View style={[styles.container,{backgroundColor:colors.background}]}>
+    <Text style={[styles.titulo,{color:colors.text}]}>{t("login")}</Text>
+    
 
     {/* Campo Email */}
     <TextInput
-      style={styles.input}
+      style={[styles.input,{backgroundColor:colors.input}]}
       placeholder="E-mail"
       placeholderTextColor="#aaa"
       keyboardType="email-address"
@@ -83,8 +101,8 @@ return (
     {/* Campo Senha */}
     <View>
       <TextInput
-      style={styles.input}
-      placeholder="Senha"
+      style={[styles.input,{backgroundColor:colors.input}]}
+      placeholder={t('password')}
       placeholderTextColor="#aaa"
       secureTextEntry={true}
       value={senha}
@@ -93,18 +111,32 @@ return (
       
     </View>
    
+    <View>
+      <TouchableOpacity onPress={()=>mudarIdioma('pt')}>
+        <Text>PT</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity onPress={()=>mudarIdioma('en')}>
+        <Text>EN</Text>
+      </TouchableOpacity>
+
+       <TouchableOpacity onPress={()=>mudarIdioma('es')}>
+        <Text>ES</Text>
+      </TouchableOpacity>
+    </View>
 
     {/* Botão */}
+
 
     <TouchableOpacity style={styles.botao} onPress={handleLogin}>
       <Text style={styles.textoBotao}>Login</Text>
     </TouchableOpacity>
 
-    <Link href="CadastrarScreen" style={{ marginTop: 20, color: 'white', marginLeft: 150 }}>Cadastre-se</Link>
+    <Link href="CadastrarScreen" style={{ marginTop: 20, color:colors.context, marginLeft: 150 }}>{t('register')}</Link>
 
      {/* Texto Esqueceu a senha */}
-    <Text style={{color:'white',justifyContent:"center",marginLeft: 130}} 
-      onPress={esqueceuSenha}>Esqueceu a senha
+    <Text style={{color:colors.context,justifyContent:"center",marginLeft: 130}} 
+      onPress={esqueceuSenha}>{t("forgotPass")}
     </Text>
   </View>
 
@@ -148,4 +180,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  idiomaBotao:{
+
+  }
 });

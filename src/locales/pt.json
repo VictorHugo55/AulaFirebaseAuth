@@ -1,0 +1,12 @@
+{
+    "welcome":"seja bem-vindo á aplicalção",
+    "logout": "Sair da conta",
+    "deletaAccount":"Excluir Conta",
+    "confirmDelete":"Tem certeza que deseja excluir a conta",
+    "cancel":"Cacelar",
+    "delete":"Deletar",
+    "login":"Realizar Login",
+    "password":"Senha",
+    "forgotPass":"Esquecue a Senha?",
+    "register":"Cadastre-se"    
+}
