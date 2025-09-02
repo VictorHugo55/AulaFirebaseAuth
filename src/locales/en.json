@@ -8,5 +8,6 @@
     "login":"Realize Login",
     "password":"Password",
     "forgotPass":"Forgot Password?",
-    "register":"Register"   
-}
+    "register":"Register",
+    "message":"Message Tests"    
+}   

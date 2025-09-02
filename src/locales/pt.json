@@ -8,5 +8,9 @@
     "login":"Realizar Login",
     "password":"Senha",
     "forgotPass":"Esquecue a Senha?",
-    "register":"Cadastre-se"    
+    "register":"Cadastre-se",
+    "message":"Teste de mensagem",
+    "errors":{
+        "error1":"Teste Erro1"
+    }
 }

@@ -43,7 +43,7 @@ export default function LoginScreen() {
 // Função para simular o envio do formulário
 const handleLogin = () => {
   if (!email || !senha) {
-    Alert.alert('Atenção', 'Preencha todos os campos!');
+    Alert.alert(t("errors.error1"));
     return;
   }
   //Função para realizar o login
