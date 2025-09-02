@@ -9,5 +9,6 @@
     "password":"Password",
     "forgotPass":"Forgot Password?",
     "register":"Register",
-    "message":"Message Tests"    
+    "message":"Message Tests",
+    "changePass":"Change password"    
 }   

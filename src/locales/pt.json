@@ -1,16 +1,17 @@
 {
-    "welcome":"seja bem-vindo á aplicalção",
+    "welcome":"seja bem-vindo á aplicação",
     "logout": "Sair da conta",
     "deletaAccount":"Excluir Conta",
     "confirmDelete":"Tem certeza que deseja excluir a conta",
     "cancel":"Cacelar",
-    "delete":"Deletar",
+    "delete":"Excluir",
     "login":"Realizar Login",
     "password":"Senha",
     "forgotPass":"Esquecue a Senha?",
     "register":"Cadastre-se",
-    "message":"Teste de mensagem",
+    "message":"Erro",
     "errors":{
         "error1":"Teste Erro1"
-    }
+    },
+    "changePass":"alterar senha"
 }

@@ -5,7 +5,17 @@ import { auth } from '../src/services/firebaseConfig'
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useTranslation } from "react-i18next";
+
+import { useTheme } from '../src/context/ThemeContext'
+import ThemeToggleButton from '../src/components/ThemeToggleButton';
+
 export default function CadastroScreen() {
+
+  const {t} = useTranslation()
+
+  const {colors} = useTheme()
+
   // Estados para armazenar os valores digitados
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
@@ -52,8 +62,8 @@ export default function CadastroScreen() {
       
   
     return (
-      <View style={styles.container}>
-        <Text style={styles.titulo}>Alterar Senha</Text>
+      <View style={[styles.container,{backgroundColor:colors.background}]}>
+        <Text style={[styles.titulo,{color:colors.text}]}>{t("changePass")}</Text>
 
         {/* Campo Nome */}
         <TextInput
@@ -82,9 +92,11 @@ export default function CadastroScreen() {
           onChangeText={setConfirmarSenha}
         />
 
+        <ThemeToggleButton/>
+
         {/* Botão */}
         <TouchableOpacity style={styles.botao} onPress={handleAlterarSenha}>
-          <Text style={styles.textoBotao}>Alterar Senha</Text>
+          <Text style={styles.textoBotao}>{t("changePass")}</Text>
         </TouchableOpacity>
       </View>
     );

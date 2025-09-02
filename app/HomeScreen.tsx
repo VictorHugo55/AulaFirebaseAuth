@@ -1,4 +1,4 @@
-import { Text, Button, Alert, TextInput, StyleSheet, ActivityIndicator, FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { Text, Button, Alert, TextInput, StyleSheet, ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -9,7 +9,11 @@ import { auth, collection, addDoc, db, getDocs } from "../src/services/firebaseC
 import ThemeToggleButton from "../src/components/ThemeToggleButton";
 import { useTheme } from "../src/context/ThemeContext";
 
+import { useTranslation } from "react-i18next";
+
 export default function HomeScreen() {
+    const{t,i18n} = useTranslation()
+    
     const {colors} = useTheme()//Obtenho a paleta de cores(dark ou light)
     const router = useRouter()//Hook de navegação entre telas
     const [title, setTitle] = useState('')
@@ -31,9 +35,9 @@ export default function HomeScreen() {
             "Confirmar Exclusão",
             "Tem certeza que deseja excluir sua conta? Esta ação não poderá ser desfeita!",
             [
-                { text: "Cancelar", style: "cancel" },
+                { text: t("cancel"), style: "cancel" },
                 {
-                    text: "Excluir", style: 'destructive',
+                    text: t("delete"), style: 'destructive',
                     onPress: async () => {
                         try {
                             const user = auth.currentUser
@@ -86,6 +90,10 @@ export default function HomeScreen() {
     useEffect(() => {
         buscarItems()
     }, [listaItems])
+
+    const mudarIdioma = (lang:string)=>{
+        i18n.changeLanguage(lang)
+    }
     return (
         <SafeAreaView style={[styles.container,{backgroundColor:colors.background}]}>
             <KeyboardAvoidingView //é componente que ajusta automaticamente o layout
@@ -94,10 +102,35 @@ export default function HomeScreen() {
                 keyboardVerticalOffset={20}//Descola o conteúdo na vertical em 20 pixel
             >                
             <ThemeToggleButton/>
-            <Text style={[styles.texto,{color:colors.text}]}>Seja bem-vindo a Tela Inicial da Aplicação</Text>
-            <Button title="Sair da Conta" onPress={realizarLogoff} />
-            <Button title="Exluir conta" color='red' onPress={excluirConta} />
-            <Button title="Alterar Senha" onPress={() => router.push("/AlterarSenha")} />
+            <Text style={[styles.texto,{color:colors.text}]}>{t("welcome")}</Text>
+            <Button title={t("logout")} onPress={realizarLogoff} />
+            <Button title={t("deletaAccount")} color='red' onPress={excluirConta} />
+            <Button title={t("changePass")} onPress={() => router.push("/AlterarSenha")} />
+
+            <View style={{flexDirection:'row', justifyContent:'center',marginBottom:15}}>
+                <TouchableOpacity 
+                        onPress={()=>mudarIdioma('pt')}
+                        style={[styles.botao,{backgroundColor:'#d2e00c',marginRight:10}]}
+                      >
+                
+                        <Text>PT</Text>
+                      </TouchableOpacity>
+                      
+                      <TouchableOpacity 
+                        onPress={()=>mudarIdioma('en')}
+                        style={[styles.botao,{backgroundColor:'#450ce0',marginRight:10}]}
+                      >
+                
+                        <Text>EN</Text>
+                      </TouchableOpacity>
+                
+                       <TouchableOpacity 
+                        onPress={()=>mudarIdioma('es')}
+                        style={[styles.botao,{backgroundColor:'#ec2409',marginRight:10}]}
+                      >
+                        <Text>ES</Text>
+                      </TouchableOpacity>
+            </View>
 
             {listaItems.length <= 0 ? (
                 <ActivityIndicator />
@@ -146,5 +179,11 @@ const styles = StyleSheet.create({
     texto:{
         fontSize:16,
         fontWeight:'bold'
-    }
+    },
+    botao: {
+    backgroundColor: '#00B37E',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
 })

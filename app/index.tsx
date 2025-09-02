@@ -8,6 +8,7 @@ import{auth} from '../src/services/firebaseConfig'
 import { useTheme } from '../src/context/ThemeContext';
 
 import { useTranslation } from 'react-i18next';
+import ThemeToggleButton from '../src/components/ThemeToggleButton';
 
 
 export default function LoginScreen() {
@@ -89,9 +90,9 @@ return (
 
     {/* Campo Email */}
     <TextInput
-      style={[styles.input,{backgroundColor:colors.input}]}
+      style={[styles.input,{backgroundColor:colors.input,color:colors.inputText}]}
       placeholder="E-mail"
-      placeholderTextColor="#aaa"
+      placeholderTextColor={colors.inputText}
       keyboardType="email-address"
       autoCapitalize="none"
       value={email}
@@ -101,9 +102,12 @@ return (
     {/* Campo Senha */}
     <View>
       <TextInput
-      style={[styles.input,{backgroundColor:colors.input}]}
+      style={[styles.input,
+        { backgroundColor:colors.input,
+          color:colors.inputText}
+      ]}
       placeholder={t('password')}
-      placeholderTextColor="#aaa"
+      placeholderTextColor={colors.inputText}
       secureTextEntry={true}
       value={senha}
       onChangeText={setSenha}
@@ -111,16 +115,27 @@ return (
       
     </View>
    
-    <View>
-      <TouchableOpacity onPress={()=>mudarIdioma('pt')}>
+    <View style={{flexDirection:'row', justifyContent:'center',marginBottom:15}}>
+      <TouchableOpacity 
+        onPress={()=>mudarIdioma('pt')}
+        style={[styles.botao,{backgroundColor:'#d2e00c',marginRight:10}]}
+      >
+
         <Text>PT</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity onPress={()=>mudarIdioma('en')}>
+      <TouchableOpacity 
+        onPress={()=>mudarIdioma('en')}
+        style={[styles.botao,{backgroundColor:'#450ce0',marginRight:10}]}
+      >
+
         <Text>EN</Text>
       </TouchableOpacity>
 
-       <TouchableOpacity onPress={()=>mudarIdioma('es')}>
+       <TouchableOpacity 
+        onPress={()=>mudarIdioma('es')}
+        style={[styles.botao,{backgroundColor:'#ec2409',marginRight:10}]}
+      >
         <Text>ES</Text>
       </TouchableOpacity>
     </View>
@@ -128,14 +143,16 @@ return (
     {/* Botão */}
 
 
-    <TouchableOpacity style={styles.botao} onPress={handleLogin}>
+    <TouchableOpacity style={[styles.botao,{backgroundColor:colors.button}]} onPress={handleLogin}>
       <Text style={styles.textoBotao}>Login</Text>
     </TouchableOpacity>
 
-    <Link href="CadastrarScreen" style={{ marginTop: 20, color:colors.context, marginLeft: 150 }}>{t('register')}</Link>
+    <ThemeToggleButton/>
+
+    <Link href="CadastrarScreen" style={{ marginTop: 20, color:colors.text, marginLeft: 150 }}>{t('register')}</Link>    
 
      {/* Texto Esqueceu a senha */}
-    <Text style={{color:colors.context,justifyContent:"center",marginLeft: 130}} 
+    <Text style={{color:colors.text,justifyContent:"center",marginLeft: 130}} 
       onPress={esqueceuSenha}>{t("forgotPass")}
     </Text>
   </View>
